@@ -36,8 +36,10 @@ val javaVersion = JavaVersion.VERSION_17
 val baseIDE = properties("baseIDE").get()
 val ideaVersion = properties("ideaVersion").get()
 val clionVersion = properties("clionVersion").get()
+val riderVersion = properties("riderVersion").get()
 
 val clionPlugins = listOf("com.intellij.clion", "com.intellij.cidr.lang", "com.intellij.cidr.base", "com.intellij.nativeDebug")
+val riderPlugins = listOf("com.intellij.rider", "com.intellij.cidr.lang", "com.intellij.cidr.base", "com.intellij.nativeDebug")
 
 tasks {
     wrapper {
@@ -62,17 +64,7 @@ allprojects {
     repositories {
         mavenCentral()
         intellijPlatform {
-            localPlatformArtifacts {
-                content {
-                    includeGroup("bundledPlugin")
-                }
-            }
-            snapshots {
-                content {
-                    includeModule("com.jetbrains.intellij.clion", "clion")
-                    includeModule("com.jetbrains.intellij.idea", "ideaIC")
-                }
-            }
+            defaultRepositories()
         }
     }
     dependencies {
@@ -127,9 +119,6 @@ allprojects {
     }
 
     configure<JavaPluginExtension> {
-        toolchain {
-            languageVersion.set(javaLangVersion)
-        }
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
     }
@@ -219,9 +208,19 @@ project(":debugger") {
         implementation(project(":lsp"))
         implementation("org.eclipse.lsp4j:org.eclipse.lsp4j.debug:0.22.0")
         intellijPlatform {
-            clion(clionVersion)
-            for (p in clionPlugins) {
-                bundledPlugin(p)
+            when (baseIDE) {
+                "rider" -> {
+                    rider(riderVersion)
+                    for (p in riderPlugins) {
+                        bundledPlugin(p)
+                    }
+                }
+                else -> {
+                    clion(clionVersion)
+                    for (p in clionPlugins) {
+                        bundledPlugin(p)
+                    }
+                }
             }
         }
     }
@@ -255,6 +254,7 @@ dependencies {
         pluginVerifier()
         when (baseIDE) {
             "idea" -> intellijIdeaCommunity(ideaVersion)
+            "rider" -> rider(riderVersion)
             "clion" -> clion(clionVersion)
         }
     }
@@ -296,6 +296,7 @@ intellijPlatform {
             ide(IntelliJPlatformType.IntellijIdeaCommunity, ideaVersion)
             ide(IntelliJPlatformType.IntellijIdeaUltimate, ideaVersion)
             ide(IntelliJPlatformType.CLion, clionVersion)
+            ide(IntelliJPlatformType.Rider, riderVersion)
         }
     }
 }
@@ -340,6 +341,7 @@ tasks {
     }
 
     prepareSandbox {
+        doNotTrackState("")
         finalizedBy(mergePluginJarTask)
         enabled = true
     }

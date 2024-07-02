@@ -81,7 +81,7 @@ public class ZLSSettingsPanel implements Disposable {
                 r.cell(zlsPath).resizableColumn().align(AlignX.FILL);
                 r.button("Autodetect", $f(this::autodetect));
             });
-            p.cell("Config path (leave empty to use built-in config)", zlsConfigPath, AlignX.FILL);
+            p.cell("Config path (leave empty just because lol)", zlsConfigPath, AlignX.FILL);
             p.cell("Increase timeouts", increaseTimeouts);
             p.cell("Asynchronous code folding ranges", asyncFolding);
         });

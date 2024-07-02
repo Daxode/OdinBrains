@@ -140,7 +140,7 @@ public final class ZigDebuggerToolchainService {
 
         val msvcBinaryPath = "vsdbg.exe";
 
-        val msvcFile = msvcPath().resolve(msvcBinaryPath);
+        val msvcFile = Path.of("C:\\Users\\danielandersen\\.vscode\\extensions\\ms-vscode.cpptools-1.20.5-win32-x64\\debugAdapters\\vsdbg\\bin\\vsdbg.exe");
         if (!Files.exists(msvcFile))
             return DebuggerAvailability.NeedToDownload;
 

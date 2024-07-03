@@ -15,20 +15,20 @@
  */
 
 {
-  parserClass="com.falsepattern.zigbrains.zig.parser.ZigParser"
+  parserClass="com.daxode.odinbrains.zig.parser.ZigParser"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
   extends(".*Expr")=Expr
 
   psiClassPrefix="Zig"
   psiImplClassSuffix="Impl"
-  psiPackage="com.falsepattern.zigbrains.zig.psi"
-  psiImplPackage="com.falsepattern.zigbrains.zig.psi.impl"
+  psiPackage="com.daxode.odinbrains.zig.psi"
+  psiImplPackage="com.daxode.odinbrains.zig.psi.impl"
 
-  elementTypeHolderClass="com.falsepattern.zigbrains.zig.psi.ZigTypes"
-  elementTypeClass="com.falsepattern.zigbrains.zig.psi.ZigElementType"
+  elementTypeHolderClass="com.daxode.odinbrains.zig.psi.ZigTypes"
+  elementTypeClass="com.daxode.odinbrains.zig.psi.ZigElementType"
 
-  tokenTypeClass="com.falsepattern.zigbrains.zig.psi.ZigTokenType"
+  tokenTypeClass="com.daxode.odinbrains.zig.psi.ZigTokenType"
   generateTokenAccessors = true
   tokens=[
 

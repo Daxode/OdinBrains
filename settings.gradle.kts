@@ -1,4 +1,4 @@
-rootProject.name = "ZigBrains"
+rootProject.name = "OdinBrains"
 
 File(rootDir, "modules").eachDir { dir ->
     if (dir.resolve("src").exists()) {

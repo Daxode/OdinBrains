@@ -1,0 +1,61 @@
+<!--
+  ~ Copyright 2023-2024 FalsePattern
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<idea-plugin package="com.daxode.odinbrains.debugger">
+    <depends>com.intellij.modules.cidr.debugger</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <configurationType implementation="com.daxode.odinbrains.debugger.execution.binary.ConfigTypeBinary"/>
+
+        <programRunner implementation="com.daxode.odinbrains.debugger.runner.run.ZigDebugRunnerRun"
+                       id="ZigDebugRunnerRun"/>
+        <programRunner implementation="com.daxode.odinbrains.debugger.runner.test.ZigDebugRunnerTest"
+                       id="ZigDebugRunnerTest"/>
+        <programRunner implementation="com.daxode.odinbrains.debugger.runner.build.ZigDebugRunnerBuild"
+                       id="ZigDebugRunnerBuild"/>
+        <programRunner implementation="com.daxode.odinbrains.debugger.runner.binary.ZigDebugRunnerBinary"
+                       id="ZigDebugRunnerBinary"/>
+
+        <xdebugger.settings implementation="com.daxode.odinbrains.debugger.settings.ZigDebuggerSettings"/>
+
+        <notificationGroup displayType="BALLOON"
+                           bundle="odinbrains.Bundle"
+                           key="notif-debug-info"
+                           id="OdinBrains.Debugger.Info"/>
+        <notificationGroup displayType="BALLOON"
+                           bundle="odinbrains.Bundle"
+                           key="notif-debug-warn"
+                           id="OdinBrains.Debugger.Warn"/>
+        <notificationGroup displayType="BALLOON"
+                           bundle="odinbrains.Bundle"
+                           key="notif-debug-error"
+                           id="OdinBrains.Debugger.Error"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.daxode.odinbrains">
+        <featureProvider implementation="com.daxode.odinbrains.debugger.DebuggerFeatures"/>
+        <debuggerDriverProvider id="ZigDefaultDebuggerDriverConfigurationProvider"
+                                implementation="com.daxode.odinbrains.debugger.ZigDefaultDebuggerDriverConfigurationProvider"
+                                order="last"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="cidr.debugger">
+        <languageSupport language="Zig" implementationClass="com.daxode.odinbrains.debugger.ZigDebuggerLanguageSupport"/>
+        <editorsExtension language="Zig" implementationClass="com.daxode.odinbrains.debugger.ZigDebuggerEditorsExtension"/>
+        <lineBreakpointFileTypesProvider implementation="com.daxode.odinbrains.debugger.ZigLineBreakpointFileTypesProvider"/>
+        <localVariablesFilterHandler implementation="com.daxode.odinbrains.debugger.ZigVariablesFilterHandler"/>
+    </extensions>
+</idea-plugin>

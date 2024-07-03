@@ -25,7 +25,7 @@ val publishVersions = listOf("232", "233", "241", "242")
 val gitVersion: groovy.lang.Closure<String> by extra
 
 val grammarKitGenDir = "build/generated/sources/grammarkit/java"
-val rootPackage = "com.falsepattern.zigbrains"
+val rootPackage = "com.daxode.odinbrains"
 
 val rootPackagePath = rootPackage.replace('.', '/')
 
@@ -77,7 +77,7 @@ allprojects {
         }
     }
 
-    if (path in listOf(":zig", ":zon")) {
+    if (path in listOf(":zig")) {
         apply {
             plugin("org.jetbrains.grammarkit")
         }
@@ -226,28 +226,9 @@ project(":debugger") {
     }
 }
 
-project(":zon") {
-    dependencies {
-        implementation(project(":common"))
-    }
-    tasks {
-        generateLexer {
-            sourceFile = file("src/main/grammar/Zon.flex")
-            targetOutputDir = file("${grammarKitGenDir}/lexer/${rootPackagePath}/zon/lexer")
-        }
-
-        generateParser {
-            sourceFile = file("src/main/grammar/Zon.bnf")
-            pathToParser = "${rootPackagePath}/zon/psi/ZonParser.java"
-            pathToPsiRoot = "${rootPackagePath}/zon/psi"
-        }
-    }
-}
-
 dependencies {
     implementation(project(":zig"))
     implementation(project(":project"))
-    implementation(project(":zon"))
     implementation(project(":debugger"))
     intellijPlatform {
         zipSigner()
@@ -307,7 +288,7 @@ intellijPlatform {
 // We need to put all plugin manifest files into single jar to make new plugin model work
 val mergePluginJarTask = task<Jar>("mergePluginJars") {
     duplicatesStrategy = DuplicatesStrategy.FAIL
-    archiveBaseName.set("ZigBrains")
+    archiveBaseName.set("OdinBrains")
 
     exclude("META-INF/MANIFEST.MF")
     exclude("**/classpath.index")
@@ -376,7 +357,7 @@ tasks {
     }
 }
 
-fun distFile(it: String) = layout.buildDirectory.file("dist/ZigBrains-${pluginVersion().get()}-$it-signed.zip")
+fun distFile(it: String) = layout.buildDirectory.file("dist/OdinBrains-${pluginVersion().get()}-$it-signed.zip")
 
 publishVersions.forEach {
     tasks.register<PublishPluginTask>("jbpublish-$it") {
@@ -391,8 +372,8 @@ publishVersions.forEach {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "com.falsepattern"
-            artifactId = "zigbrains"
+            groupId = "com.daxode"
+            artifactId = "odinbrains"
             version = pluginVersion().get()
 
             publishVersions.forEach {
